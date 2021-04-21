@@ -313,6 +313,15 @@ export default {
                     { texto: 'Certificaciones', ruta: '/configuracion/Certificaciones', }
                 ]
             },
+             {
+                icono: 'mdi-folder',
+                texto: 'Reportes',
+                opcionesNivel1: [
+                    { texto: 'Egreso insumo', ruta: '/reportes/egreso-insumo' },
+                    { texto: 'Ingreso insumo', ruta: '/reportes/ingreso-insumo' },
+
+                ]
+            },
         ]
     },
 }
