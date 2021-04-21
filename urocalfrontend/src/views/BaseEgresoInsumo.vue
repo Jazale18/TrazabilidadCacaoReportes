@@ -30,7 +30,7 @@
       <v-card-text>
         <v-data-table
           :headers="cabeceraTablaEgresoInsumo"
-          :items="listaEgresoInsumoStore"
+          :items="listaEgresoInsumo"
           :search="buscarEgresoInsumo"
           sort-by="id_lote"
           :height="tablaResponsiva()"
@@ -70,6 +70,7 @@ import DialogNuevoEgresoInsumo from "../components/DialogNuevoEgresoInsumo"; // 
 import DialogEditarEgresoInsumo from "../components/DialogEditarEgresoInsumo"; // Dialogo para editar usuario
 import ServicioEgresoInsumo from "../services/ServicioEgresoInsumo"; // Interactuar con el Backend
 import { autenticacionMixin, myMixin } from "@/mixins/MyMixin"; // Instancia al mixin de autenticacion
+import jsPDF from "jspdf";
 
 export default {
   name: "BaseEgresoInsumo",
@@ -99,13 +100,13 @@ export default {
         },
         {
           text: "Insumo",
-          value: "inginsproducto",
+          value: "ingresoinsumosid",
           align: "center",
           class: "grey lighten-3",
         },
         {
           text: "Finca",
-          value: "finnombrefinca",
+          value: "fincaid",
           align: "center",
           class: "grey lighten-3",
         },
@@ -138,7 +139,7 @@ export default {
         },
         {
           text: "Encargado",
-          value: "egrencargado",
+          value: "egrinsencargado",
           sortable: false,
           align: "center",
           class: "grey lighten-3",
@@ -151,7 +152,33 @@ export default {
           class: "grey lighten-3",
         },
       ],
-      listaEgresoInsumo: [], // Almacena una lista de EgresoInsumo con llave foranea ingresoinsumoid, la misma se muestra en tabla
+
+    listaEgresoInsumo: [
+        {
+          egresoinsumosid: "1001",
+          ingresoinsumosid: "Abono organico",
+          fincaid: "0001",
+          egrinsfechaegreso: "2020-02-01",
+          egrinsparacontrolar: "305",
+          egrinsdosis: "3",
+          egrinscantidadentregada: "10",
+          egrinsencargado: "Milton",
+          actions: "Ninguno"
+        },
+               {
+          egresoinsumosid: "1002",
+          ingresoinsumosid: "Fertilizante",
+          fincaid: "002",
+          egrinsfechaegreso: "2021-02-01",
+          egrinsparacontrolar: "306",
+          egrinsdosis: "8",
+          egrinscantidadentregada: "22",
+          egrinsencargado: "Bryan",
+          actions: "Ninguno"
+        }
+      
+      ],
+
     };
   },
 
@@ -231,12 +258,12 @@ export default {
     // #  MANIPULACIÓN DE DATOS  #
     // ###########################
     async cargarListaEgresoInsumo() {
-      let listaEgresoInsumo = []; // Limpiar la 'lista de datos'
+      this.listaEgresoInsumo = []; // Limpiar la 'lista de datos'
       let respuesta = await ServicioEgresoInsumo.obtenerTodosEgresoInsumo(); // Obtener respuesta de backend
       let datosUsuario = await respuesta.data; // Rescatar datos de la respuesta
       datosUsuario.forEach((egresoinsumo) => {
         // Guardar cada registro en la 'lista de datos'
-        listaEgresoInsumo.push(egresoinsumo);
+        this.listaEgresoInsumo.push(egresoinsumo);
       });
       this.listaEgresoInsumoStore = listaEgresoInsumo;
       //console.log(this.listaEgresoInsumoStore);
@@ -284,9 +311,7 @@ export default {
       this.vaciarModeloEgresoInsumo();
       const indiceEditar = this.listaEgresoInsumoStore.indexOf(item);
       this.modeloEgresoInsumoStore = item;
-      this.cargarListaInsumo();
     },
-
     // ###################
     // #  TIENDA DE VUE  #
     // ###################

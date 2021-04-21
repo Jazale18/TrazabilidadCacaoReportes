@@ -319,17 +319,16 @@ export default {
     // #  MANIPULACIÓN DE DATOS  #
     // ###########################
     async cargarListaIngresoInsumo() {
-      let listaIngresoInsumo = []; // Limpiar la 'lista de datos'
+      this.listaIngresoInsumo = []; // Limpiar la 'lista de datos'
       let respuesta = await ServicioIngresoInsumo.obtenerTodosIngresoInsumo(); // Obtener respuesta de backend
-      let datosUsuario = await respuesta.data; // Rescatar datos de la respuesta
-      datosUsuario.forEach((ingresoinsumo) => {
+      let datosIngresoInsumo = await respuesta.data; // Rescatar datos de la respuesta
+      datosIngresoInsumo.forEach((ingresoinsumo) => {
         // Guardar cada registro en la 'lista de datos'
-        listaIngresoInsumo.push(ingresoinsumo);
+        this.listaIngresoInsumo.push(ingresoinsumo);
       });
-      this.listaIngresoInsumoStore = listaIngresoInsumo;
+      this.listaIngresoInsumoStore = this.listaIngresoInsumo;
       //console.log(this.listaIngresoInsumoStore);
     },
-
     async cargarInsumoAcopios() {
       let listaInsumo = [];
       console.log("datainsumo> buscando"); // Rescatar datos de la respuesta
@@ -406,7 +405,7 @@ export default {
       doc.text("Encargado: Milton Garcia", 40, 260);
 
       //PARA DAR parseo
-var datas = this.listaIngresoInsumoStoreSOLID;
+var datas = this.listaIngresoInsumo;
       var prebody = [];
       for (let index = 0; index < datas.length; index++) {
         prebody[index] = [

@@ -301,12 +301,12 @@ export default {
     // #  MANIPULACIÓN DE DATOS  #
     // ###########################
     async cargarListaEgresoInsumo() {
-      let listaEgresoInsumo = []; // Limpiar la 'lista de datos'
+      this.listaEgresoInsumo = []; // Limpiar la 'lista de datos'
       let respuesta = await ServicioEgresoInsumo.obtenerTodosEgresoInsumo(); // Obtener respuesta de backend
-      let datosUsuario = await respuesta.data; // Rescatar datos de la respuesta
-      datosUsuario.forEach((egresoinsumo) => {
+      let datosEgresoInsumo = await respuesta.data; // Rescatar datos de la respuesta
+      datosEgresoInsumo.forEach((egresoinsumo) => {
         // Guardar cada registro en la 'lista de datos'
-        listaEgresoInsumo.push(egresoinsumo);
+        this.listaEgresoInsumo.push(egresoinsumo);
       });
       this.listaEgresoInsumoStore = listaEgresoInsumo;
       //console.log(this.listaEgresoInsumoStore);
